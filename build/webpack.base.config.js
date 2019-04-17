@@ -17,7 +17,7 @@ module.exports ={
         app:PATHS.src
     },
     output:{
-        filename:`${PATHS.assets}/js/[name].js`,
+        filename:`${PATHS.assets}js/[name].js`,
         path: PATHS.dist,
         publicPath: "/"
     },
@@ -47,7 +47,7 @@ module.exports ={
             },
             {
                 loader: "postcss-loader",
-                options: {sourceMap:true, config:{path:"src/js/postcss.config.js"}}
+                options: {sourceMap:true, config:{path: `${PATHS.src}/js/postcss.config.js`}}
             },
             {
                 loader: "sass-loader",
@@ -55,23 +55,27 @@ module.exports ={
             }]
         },
         {   
-            test:/\.css$/,
-            use:[
+            test: /\.css$/,
+            use: [
+                'style-loader',
                 MiniCssExtractPlugin.loader,
-                "css-loader",
                 {
-                    loader: "postcss-loader",
-                    options: {sourceMap:true, config:{path:"src/js/postcss.config.js"}}
-                },
-            ]
+                  loader: 'css-loader',
+                  options: { sourceMap: true }
+                }, {
+                  loader: 'postcss-loader',
+                  options: { sourceMap: true, config: { path: `${PATHS.src}/js/postcss.config.js` } }
+                }
+              ]
+            }]
            
-        }]
+       
     },
     plugins: [
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename:`${PATHS.assets}/css/[name].css`,
+          filename:`${PATHS.assets}css/[name].css`,
           //chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin([
